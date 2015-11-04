@@ -275,6 +275,7 @@ int32_t cmdqueue_init(cmdqueue_t *handle,
         PTHREAD_CHK(pthread_create(&phandle->tid, 0, thread_func, phandle));
     }
 
+    // only returns 0, make void
     return 0;
 }
 
@@ -326,5 +327,6 @@ int32_t cmdqueue_flush(cmdqueue_t handle,
     PTHREAD_CHK(pthread_mutex_unlock(&handle->queues[CMDFREE].mutex));
     PTHREAD_CHK(pthread_mutex_unlock(&handle->queues[CMDTODO].mutex));
 
+    // only returns 0, make void
     return 0;
 }
