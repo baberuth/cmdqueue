@@ -1,6 +1,6 @@
 UNAME=$(shell uname)
 
-CCFLAGS=-Wall -Wextra -Wno-unused-parameter -O3
+CCFLAGS=-Wall -Wextra -Wno-unused-parameter -std=c99 -O3
 
 all: main test
 

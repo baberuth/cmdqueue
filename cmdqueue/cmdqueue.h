@@ -9,7 +9,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-    
+
     struct cmd {
         struct list_tag head;
         int32_t type;
@@ -34,19 +34,19 @@ extern "C" {
                            void *cookie,
                            uint32_t *count);
 
-    int32_t cmdqueue_getcmd_sync(cmdqueue_t handle, 
+    int32_t cmdqueue_getcmd_sync(cmdqueue_t handle,
                                  struct cmd **cmd);
 
-    int32_t cmdqueue_getcmd_async(cmdqueue_t handle, 
+    int32_t cmdqueue_getcmd_async(cmdqueue_t handle,
                                   struct cmd **cmd);
 
-    int32_t cmdqueue_sync_cmd(cmdqueue_t handle, 
+    int32_t cmdqueue_sync_cmd(cmdqueue_t handle,
                               struct cmd *cmd);
 
-    int32_t cmdqueue_sync_highprio_cmd(cmdqueue_t handle, 
+    int32_t cmdqueue_sync_highprio_cmd(cmdqueue_t handle,
                                        struct cmd *cmd);
 
-    int32_t cmdqueue_async_cmd(cmdqueue_t handle, 
+    int32_t cmdqueue_async_cmd(cmdqueue_t handle,
                                struct cmd *cmd);
 
 #ifdef __cplusplus
