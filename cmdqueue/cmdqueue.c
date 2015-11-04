@@ -42,18 +42,18 @@ struct cmdqueue_tag {
     void *cmdlist;
 };
 
-static int32_t cmdqueue_add_cmd(cmdqueue_t handle, 
+static int32_t cmdqueue_add_cmd(cmdqueue_t handle,
                                 struct cmd *cmd)
 {
     if (!handle) return 1;
 
-    list_add_tail(&handle->queues[CMDFREE].head, 
+    list_add_tail(&handle->queues[CMDFREE].head,
                   &cmd->head);
 
     return 0;
 }
 
-static int32_t cmdqueue_wait_getcmd(cmdqueue_t handle, 
+static int32_t cmdqueue_wait_getcmd(cmdqueue_t handle,
                                     struct cmd **cmd)
 {
     list_t node;
@@ -77,14 +77,14 @@ static int32_t cmdqueue_wait_getcmd(cmdqueue_t handle,
 int32_t cmdqueue_getcmd_sync(cmdqueue_t handle,
                              struct cmd **cmd)
 {
-    cmdqueue_getcmd_async(handle, 
+    cmdqueue_getcmd_async(handle,
                           cmd);
-    if (!*cmd) cmdqueue_wait_getcmd(handle, 
+    if (!*cmd) cmdqueue_wait_getcmd(handle,
                                     cmd);
     return 0;
 }
 
-int32_t cmdqueue_getcmd_async(cmdqueue_t handle, 
+int32_t cmdqueue_getcmd_async(cmdqueue_t handle,
                               struct cmd **cmd)
 {
     list_t node;
@@ -103,9 +103,9 @@ int32_t cmdqueue_getcmd_async(cmdqueue_t handle,
     return 0;
 }
 
-static int32_t cmdqueue_schedule_cmd(cmdqueue_t handle, 
-                                     struct cmd *cmd, 
-                                     int32_t sync, 
+static int32_t cmdqueue_schedule_cmd(cmdqueue_t handle,
+                                     struct cmd *cmd,
+                                     int32_t sync,
                                      int32_t prio)
 {
     list_t list = (prio == CMDQUEUE_PRIO_LOW) ? &handle->queues[CMDTODO].head : &handle->queues[CMDTODO].head_prio;
@@ -147,7 +147,7 @@ static int32_t cmdqueue_wait_cmd(cmdqueue_t handle, struct cmd *cmd)
     PTHREAD_CHK(pthread_mutex_lock(&handle->queues[CMDDONE].mutex));
 
     while (!cmd_finished(&handle->queues[CMDDONE].head, cmd) ) {
-        PTHREAD_CHK(pthread_cond_wait(&handle->queues[CMDDONE].cond, 
+        PTHREAD_CHK(pthread_cond_wait(&handle->queues[CMDDONE].cond,
                     &handle->queues[CMDDONE].mutex));
     }
 
@@ -163,29 +163,29 @@ static int32_t cmdqueue_wait_cmd(cmdqueue_t handle, struct cmd *cmd)
     return 0;
 }
 
-int32_t cmdqueue_sync_cmd(cmdqueue_t handle, 
+int32_t cmdqueue_sync_cmd(cmdqueue_t handle,
                           struct cmd *cmd)
 {
-    cmdqueue_schedule_cmd(handle, 
-                          cmd, 
-                          CMDQUEUE_SYNC, 
+    cmdqueue_schedule_cmd(handle,
+                          cmd,
+                          CMDQUEUE_SYNC,
                           CMDQUEUE_PRIO_LOW);
 
     return cmdqueue_wait_cmd(handle, cmd);
 }
 
-int32_t cmdqueue_sync_highprio_cmd(cmdqueue_t handle, 
+int32_t cmdqueue_sync_highprio_cmd(cmdqueue_t handle,
                                    struct cmd *cmd)
 {
-    cmdqueue_schedule_cmd(handle, 
-                          cmd, 
-                          CMDQUEUE_SYNC, 
+    cmdqueue_schedule_cmd(handle,
+                          cmd,
+                          CMDQUEUE_SYNC,
                           CMDQUEUE_PRIO_HIGH);
 
     return cmdqueue_wait_cmd(handle, cmd);
 }
 
-int32_t cmdqueue_async_cmd(cmdqueue_t handle, 
+int32_t cmdqueue_async_cmd(cmdqueue_t handle,
                            struct cmd *cmd)
 {
     return cmdqueue_schedule_cmd(handle,
@@ -206,7 +206,7 @@ static void * thread_func(void *arg)
         PTHREAD_CHK(pthread_mutex_lock(&handle->queues[CMDTODO].mutex));
 
         while (!list_count(&handle->queues[CMDTODO].head) && !list_count(&handle->queues[CMDTODO].head_prio) && !handle->stop) {
-            PTHREAD_CHK(pthread_cond_wait(&handle->queues[CMDTODO].cond, 
+            PTHREAD_CHK(pthread_cond_wait(&handle->queues[CMDTODO].cond,
                         &handle->queues[CMDTODO].mutex));
         }
 
@@ -224,7 +224,7 @@ static void * thread_func(void *arg)
 
         if (handle->stop) return 0;
 
-        handle->cmd_callback(handle->cookie, cmd); 
+        handle->cmd_callback(handle->cookie, cmd);
 
         type = cmd->type ? CMDDONE : CMDFREE;
 
@@ -270,7 +270,7 @@ int32_t cmdqueue_init(cmdqueue_t *handle,
             struct cmd *cmd = (struct cmd*)iter;
             cmdqueue_add_cmd(phandle, cmd);
             iter += size_cmd;
-        }        
+        }
 
         PTHREAD_CHK(pthread_create(&phandle->tid, 0, thread_func, phandle));
     }
@@ -306,7 +306,7 @@ int32_t cmdqueue_flush(cmdqueue_t handle,
                        void *cookie,
                        uint32_t *count)
 {
-    list_t src, dest, node; 
+    list_t src, dest, node;
 
     PTHREAD_CHK(pthread_mutex_lock(&handle->queues[CMDTODO].mutex));
     PTHREAD_CHK(pthread_mutex_lock(&handle->queues[CMDFREE].mutex));
