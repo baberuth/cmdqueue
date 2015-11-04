@@ -3,6 +3,8 @@
 
 #include <stdint.h>
 
+#include "cmdqueue.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -12,6 +14,11 @@ extern "C" {
         DEINIT,
         START,
         STOP,
+    };
+
+    enum mycallback_type {
+        START_CALLED,
+        STOP_CALLED,
     };
 
     struct mycmd {

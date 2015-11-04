@@ -12,6 +12,8 @@ struct mycmdqueue_tag {
 static void mycmd_callback(void *cookie, struct cmd *cmd)
 {
     struct mycmd * mycmd = (struct mycmd *)cmd;
+    mycmdqueue_t handle = (mycmdqueue_t)cookie;
+
     switch (mycmd->type) {
         case INIT:
         {
@@ -23,10 +25,18 @@ static void mycmd_callback(void *cookie, struct cmd *cmd)
         break;
         case START:
         {
+            if (handle->cmd_callback) handle->cmd_callback(handle->cookie, 
+                                                           START_CALLED, 
+                                                           0, 
+                                                           0);
         }
         break;
         case STOP:
         {
+            if (handle->cmd_callback) handle->cmd_callback(handle->cookie, 
+                                                           STOP_CALLED, 
+                                                           0, 
+                                                           0);
         }
         break;
     }
@@ -42,7 +52,7 @@ int32_t mycmdqueue_init(mycmdqueue_t * handle,
     *handle = malloc(sizeof(struct mycmdqueue_tag));
 
     if (*handle) {
-        const int32_t num_commands = 100;
+        const int32_t num_commands = 1;
         mycmdqueue_t phandle = *handle;
         struct mycmd *cmd;
 

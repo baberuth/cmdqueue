@@ -2,16 +2,19 @@ UNAME=$(shell uname)
 
 CCFLAGS=-Wall -Wextra -Wno-unused-parameter -O3
 
-all: main
+all: main test
 
 remake: clean all
 
-%.o: %.c util.h cmdqueue.h list.h
-	gcc $(CCFLAGS) -c -o $@ $<
+%.o: %.c util.h cmdqueue.h list.h mycmdqueue.h
+	gcc $(CCFLAGS) -I../ctest/ -c -o $@ $<
 
-main: main.o cmdqueue.o list.o 
-	gcc $(LDFLAGS) main.o cmdqueue.o list.o -o main
+test: testmain.o main.o list.o mycmdqueue.o mytests.o
+	gcc $(LDFLAGS) testmain.o cmdqueue.o list.o mycmdqueue.o mytests.o -o test
+
+main: main.o cmdqueue.o list.o mycmdqueue.o
+	gcc $(LDFLAGS) main.o cmdqueue.o list.o mycmdqueue.o -o main
 
 clean:
-	rm -f main *.o
+	rm -f test main *.o
 
