@@ -1,3 +1,4 @@
+#include <stdint.h>
 #include "list.h"
 
 void list_init(list_t const src)

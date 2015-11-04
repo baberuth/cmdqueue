@@ -42,11 +42,9 @@ struct cmdqueue_tag {
     void *cmdlist;
 };
 
-static int32_t cmdqueue_add_cmd(cmdqueue_t handle,
+static void cmdqueue_add_cmd(cmdqueue_t handle,
                                 struct cmd *cmd)
 {
-    if (!handle) return 1;
-
     list_add_tail(&handle->queues[CMDFREE].head,
                   &cmd->head);
 
@@ -264,7 +262,10 @@ int32_t cmdqueue_init(cmdqueue_t *handle,
             iter += size_cmd;
         }
 
-        PTHREAD_CHK(pthread_create(&phandle->tid, 0, thread_func, phandle));
+        PTHREAD_CHK(pthread_create(&phandle->tid, 
+                                   0, 
+                                   thread_func, 
+                                   phandle));
     } else {
         return 1;
     }

@@ -20,7 +20,7 @@ extern "C" {
     int32_t cmdqueue_init(cmdqueue_t *handle,
                           const char *name,
                           void (*cmd_callback)(void *cookie,
-                          struct cmd *cmd),
+                                               struct cmd *cmd),
                           void *cookie,
                           uint32_t num_commands,
                           uint32_t size_cmd);
@@ -29,8 +29,8 @@ extern "C" {
 
     void cmdqueue_flush(cmdqueue_t handle,
                         void (*flush_callback)(void *cookie,
-                        struct cmd *cmd,
-                        uint32_t *count),
+                                               struct cmd *cmd,
+                                               uint32_t *count),
                         void *cookie,
                         uint32_t *count);
 
