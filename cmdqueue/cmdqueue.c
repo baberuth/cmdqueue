@@ -42,15 +42,8 @@ struct cmdqueue_tag {
     void *cmdlist;
 };
 
-static void cmdqueue_add_cmd(cmdqueue_t handle,
-                                struct cmd *cmd)
-{
-    list_add_tail(&handle->queues[CMDFREE].head,
-                  &cmd->head);
-}
-
 static void cmdqueue_wait_getcmd(cmdqueue_t handle,
-                                    struct cmd **cmd)
+                                 struct cmd **cmd)
 {
     list_t node;
 
@@ -152,7 +145,7 @@ static void cmdqueue_wait_cmd(cmdqueue_t handle, struct cmd *cmd)
 }
 
 void cmdqueue_sync_cmd(cmdqueue_t handle,
-                          struct cmd *cmd)
+                       struct cmd *cmd)
 {
     cmdqueue_schedule_cmd(handle,
                           cmd,
@@ -163,7 +156,7 @@ void cmdqueue_sync_cmd(cmdqueue_t handle,
 }
 
 void cmdqueue_sync_highprio_cmd(cmdqueue_t handle,
-                                   struct cmd *cmd)
+                                struct cmd *cmd)
 {
     cmdqueue_schedule_cmd(handle,
                           cmd,
@@ -256,7 +249,8 @@ int32_t cmdqueue_init(cmdqueue_t *handle,
         iter = (uint8_t*)phandle->cmdlist;
         for (i=0;i<num_commands;i++) {
             struct cmd *cmd = (struct cmd*)iter;
-            cmdqueue_add_cmd(phandle, cmd);
+            list_add_tail(&phandle->queues[CMDFREE].head,
+                          &cmd->head);
             iter += size_cmd;
         }
 

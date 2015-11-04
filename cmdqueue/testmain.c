@@ -9,7 +9,6 @@ int main(int argc, const char *argv[])
 {
     int result = ctest_main(argc, argv);
 
-    printf("\nNOTE: some tests will fail, just to show how ctest works! ;)\n");
     return result;
 }
 
