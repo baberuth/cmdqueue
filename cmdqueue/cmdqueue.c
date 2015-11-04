@@ -47,8 +47,6 @@ static void cmdqueue_add_cmd(cmdqueue_t handle,
 {
     list_add_tail(&handle->queues[CMDFREE].head,
                   &cmd->head);
-
-    return 0;
 }
 
 static void cmdqueue_wait_getcmd(cmdqueue_t handle,
