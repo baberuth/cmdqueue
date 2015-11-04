@@ -71,6 +71,7 @@ static int32_t cmdqueue_wait_getcmd(cmdqueue_t handle,
 
     PTHREAD_CHK(pthread_mutex_unlock(&handle->queues[CMDFREE].mutex));
 
+    // always returns 0, make void?
     return 0;
 }
 
@@ -81,6 +82,7 @@ int32_t cmdqueue_getcmd_sync(cmdqueue_t handle,
                           cmd);
     if (!*cmd) cmdqueue_wait_getcmd(handle,
                                     cmd);
+    // always returns 0, make void?
     return 0;
 }
 
@@ -100,6 +102,7 @@ int32_t cmdqueue_getcmd_async(cmdqueue_t handle,
 
     PTHREAD_CHK(pthread_mutex_unlock(&handle->queues[CMDFREE].mutex));
 
+    // always returns 0, make void?
     return 0;
 }
 
@@ -115,6 +118,7 @@ static int32_t cmdqueue_schedule_cmd(cmdqueue_t handle,
                   &cmd->head);
     PTHREAD_CHK(pthread_cond_broadcast(&handle->queues[CMDTODO].cond));
     PTHREAD_CHK(pthread_mutex_unlock(&handle->queues[CMDTODO].mutex));
+    // always returns 0, make void?
     return 0;
 }
 
@@ -160,6 +164,7 @@ static int32_t cmdqueue_wait_cmd(cmdqueue_t handle, struct cmd *cmd)
     PTHREAD_CHK(pthread_cond_broadcast(&handle->queues[CMDFREE].cond));
     PTHREAD_CHK(pthread_mutex_unlock(&handle->queues[CMDFREE].mutex));
 
+    // always returns 0, make void?
     return 0;
 }
 
@@ -234,6 +239,7 @@ static void * thread_func(void *arg)
         PTHREAD_CHK(pthread_mutex_unlock(&handle->queues[type].mutex));
     }
 
+    // always returns 0, make void?
     return 0;
 }
 
@@ -275,7 +281,7 @@ int32_t cmdqueue_init(cmdqueue_t *handle,
         PTHREAD_CHK(pthread_create(&phandle->tid, 0, thread_func, phandle));
     }
 
-    // only returns 0, make void
+    // always returns 0, make void?
     return 0;
 }
 
@@ -327,6 +333,6 @@ int32_t cmdqueue_flush(cmdqueue_t handle,
     PTHREAD_CHK(pthread_mutex_unlock(&handle->queues[CMDFREE].mutex));
     PTHREAD_CHK(pthread_mutex_unlock(&handle->queues[CMDTODO].mutex));
 
-    // only returns 0, make void
+    // always returns 0, make void?
     return 0;
 }
