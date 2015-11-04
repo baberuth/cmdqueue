@@ -44,8 +44,8 @@ extern "C" {
                                                            void *data,
                                                            int32_t len));
     int32_t mycmdqueue_deinit(mycmdqueue_t handle);
-    int32_t mycmdqueue_start(mycmdqueue_t handle);
-    int32_t mycmdqueue_stop(mycmdqueue_t handle);
+    void mycmdqueue_start(mycmdqueue_t handle);
+    void mycmdqueue_stop(mycmdqueue_t handle);
 
 #ifdef __cplusplus
 }

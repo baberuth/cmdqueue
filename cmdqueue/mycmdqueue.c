@@ -90,7 +90,7 @@ int32_t mycmdqueue_deinit(mycmdqueue_t handle)
     return 0;
 }
 
-int32_t mycmdqueue_start(mycmdqueue_t handle)
+void mycmdqueue_start(mycmdqueue_t handle)
 {
     struct mycmd *cmd;
 
@@ -99,10 +99,10 @@ int32_t mycmdqueue_start(mycmdqueue_t handle)
 
     cmd->type = START;
 
-    return cmdqueue_sync_cmd(handle->cmdqueue, &cmd->cmd);
+    cmdqueue_sync_cmd(handle->cmdqueue, &cmd->cmd);
 }
 
-int32_t mycmdqueue_stop(mycmdqueue_t handle)
+void mycmdqueue_stop(mycmdqueue_t handle)
 {
     struct mycmd *cmd;
 
@@ -111,5 +111,5 @@ int32_t mycmdqueue_stop(mycmdqueue_t handle)
 
     cmd->type = STOP;
 
-    return cmdqueue_sync_cmd(handle->cmdqueue, &cmd->cmd);
+    cmdqueue_sync_cmd(handle->cmdqueue, &cmd->cmd);
 }
