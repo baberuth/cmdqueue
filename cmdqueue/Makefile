@@ -10,10 +10,10 @@ remake: clean all
 	gcc $(CCFLAGS) -I../ctest/ -c -o $@ $<
 
 test: testmain.o main.o list.o mycmdqueue.o mytests.o
-	gcc $(LDFLAGS) testmain.o cmdqueue.o list.o mycmdqueue.o mytests.o -o test
+	gcc $(LDFLAGS) testmain.o cmdqueue.o list.o mycmdqueue.o mytests.o -o test -lpthread
 
 main: main.o cmdqueue.o list.o mycmdqueue.o
-	gcc $(LDFLAGS) main.o cmdqueue.o list.o mycmdqueue.o -o main
+	gcc $(LDFLAGS) main.o cmdqueue.o list.o mycmdqueue.o -o main -lpthread
 
 clean:
 	rm -f test main *.o
